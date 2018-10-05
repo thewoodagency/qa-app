@@ -82,7 +82,7 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question, Answer $answer)
+    public function destroy(Question $question, Answer $answer) // check destroy route to know parameters
     {
         $this->authorize('delete', $answer);
 

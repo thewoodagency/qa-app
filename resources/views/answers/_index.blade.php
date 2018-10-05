@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">
-                    <h3>Your answers</h3>
+                    <h3>{{ $answersCount }} Answers</h3>
                 </div>
                 <hr>
                 @include ('layouts._messages')
