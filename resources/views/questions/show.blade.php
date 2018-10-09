@@ -25,10 +25,21 @@
                                 <a title="This question is not useful" class="vote-down off">
                                     <i class="fas fa-caret-down fa-3x"></i>
                                 </a>
-                                <a title="Click to mark as a favorite" class="favorite mt-2 favorited">
+                                <a title="Click to mark as a favorite"
+                                   class="favorite mt-2 {{ Auth::guest() ? 'off' : ($question->is_favorited ? 'favorited' : '') }}"
+                                   onclick="event.preventDefault(); document.getElementById('favorite-{{ $question->id }}').submit()"
+                                >
                                     <i class="fas fa-star fa-2x"></i>
-                                    <span class="favorites-count">123</span>
+                                    <span class="favorites-count">{{ $question->favorites_count }}</span>
                                 </a>
+                                <form id="favorite-{{ $question->id }}"
+                                      action="{{ route('questions.favorite', $question->id) }}"
+                                      method="post">
+                                    @csrf
+                                    @if ($question->is_favorited)
+                                        @method('DELETE')
+                                    @endif
+                                </form>
                             </div>
                             <div class="media-body">
                                 <p class="lead">
@@ -43,7 +54,7 @@
                                     <span class="text-muted">Answered {{ $question->created_date }}</span>
                                     <div class="media mt-2">
                                         <a href="{{ $question->user->url }}" class="pr-2">
-                                            <img src="{{ $question->user->avatar }}" />
+                                            <img src="{{ $question->user->avatar }}"/>
                                         </a>
                                         <div class="media-body mt-1">
                                             <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
