@@ -64,18 +64,7 @@ class User extends Authenticatable
 
     public function voteAQuestion(Question $question, $vote)
     {
-        $voteQuestions = $this->voteQuestions();
-        if ($voteQuestions->where('votable_id', $question->id)->exists()) {
-            $voteQuestions->updateExistingPivot($question, ['vote' => $vote]);
-        } else {
-            $voteQuestions->attach($question, ['vote' => $vote]);
-        }
-
-        $question->load('votes');
-        $downVotes = (int) $question->votes()->wherePivot('vote', -1)->sum('vote');
-        $upVotes = (int) $question->votes()->wherePivot('vote', 1)->sum('vote');
-        $question->votes_count = $upVotes + $downVotes;
-        $question->save();
+        $this->_vote($this->voteQuestions(), $question, $vote);
     }
 
     public function voteAnswers()
@@ -85,17 +74,21 @@ class User extends Authenticatable
 
     public function voteAAnswer(Answer $answer, $vote)
     {
-        $voteAnswers = $this->voteAnswers();
-        if ($voteAnswers->where('votable_id', $answer->id)->exists()) {
-            $voteAnswers->updateExistingPivot($answer, ['vote' => $vote]);
+        $this->_vote($this->voteAnswers(), $answer, $vote);
+    }
+
+    private function _vote($relationship, $model, $vote)
+    {
+        if ($relationship->where('votable_id', $model->id)->exists()) {
+            $relationship->updateExistingPivot($model, ['vote' => $vote]);
         } else {
-            $voteAnswers->attach($answer, ['vote' => $vote]);
+            $relationship->attach($model, ['vote' => $vote]);
         }
 
-        $answer->load('votes');
-        $downVote = (int) $answer->votes()->wherePivot('vote', -1)->sum('vote');
-        $upVote = (int) $answer->votes()->wherePivot('vote', 1)->sum('vote');
-        $answer->votes_count = $upVote + $downVote;
-        $answer->save();
+        $model->load('votes');
+        $downVote = (int) $model->votes()->wherePivot('vote', -1)->sum('vote');
+        $upVote = (int) $model->votes()->wherePivot('vote', 1)->sum('vote');
+        $model->votes_count = $upVote + $downVote;
+        $model->save();
     }
 }
