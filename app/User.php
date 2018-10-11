@@ -86,8 +86,8 @@ class User extends Authenticatable
         }
 
         $model->load('votes');
-        $downVote = (int) $model->votes()->wherePivot('vote', -1)->sum('vote');
-        $upVote = (int) $model->votes()->wherePivot('vote', 1)->sum('vote');
+        $downVote = (int) $model->upVotes()->sum('vote');
+        $upVote = (int) $model->downVotes()->sum('vote');
         $model->votes_count = $upVote + $downVote;
         $model->save();
     }
