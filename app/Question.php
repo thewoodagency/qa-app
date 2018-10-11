@@ -44,7 +44,7 @@ class Question extends Model
 
     public function getBodyHtmlAttribute()
     {
-        return \Parsedown::instance()->text($this->body);
+        return clean($this->bodyHTML());
     }
 
     public function answers()
@@ -79,6 +79,14 @@ class Question extends Model
         return $this->favorites->count();
     }
 
+    public function getExcerptAttribute()
+    {
+        return str_limit(strip_tags($this->bodyHTML()), 250);
+    }
+
+    private function bodyHTML() {
+        return \Parsedown::instance()->text($this->body);
+    }
 
     //moved to VotableTrait
     /*public function votes()
