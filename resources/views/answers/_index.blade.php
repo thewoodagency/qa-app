@@ -10,7 +10,7 @@
                     @include ('layouts._messages')
 
                     @foreach($answers as $answer)
-                        <div class="media">
+                        <div class="media post">
                             <div class="d-fex flex-column vote-controls">
                                 @include('shared._vote', [
                                 'model' => $answer
@@ -66,11 +66,11 @@
                                             'model' => $answer,
                                             'label' => 'Answered'
                                         ])
+                                        <user-info :model="{{ $answer }}" label="Answered"></user-info>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <hr>
                     @endforeach
                 </div>
             </div>

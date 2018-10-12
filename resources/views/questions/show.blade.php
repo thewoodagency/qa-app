@@ -54,6 +54,7 @@
                                             'model' => $question,
                                             'label' => "Asked"
                                         ])
+                                        <user-info :model="{{ $question }}" label="Asked"></user-info>
                                     </div>
                                 </div>
                             </div>
