@@ -8,6 +8,11 @@ use App\Policies\AnswerPolicy;
 
 class AcceptAnswerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function accept(Answer $answer)
     {
         $this->authorize('accept', $answer); // accept policy in AnswerPolicy
