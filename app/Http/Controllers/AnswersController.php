@@ -95,6 +95,13 @@ class AnswersController extends Controller
 
         $answer->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json([
+                'message' => 'Answer removed by Vue componenet'
+            ]);
+        }
+
         return redirect()->route('questions.show', $question->slug)->with('success', 'Answer removed');
     }
 }

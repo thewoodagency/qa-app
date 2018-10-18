@@ -44,7 +44,8 @@
                                             <textarea v-model="body" rows="10" class="form-control" required></textarea>
                                         </div>
                                         <button class="btn btn-primary" :disabled="isInvalid">Update</button>
-                                        <button class="btn btn-outline-secondary" @click="cancel" type="button">Cancel</button>
+                                        <button class="btn btn-outline-secondary" @click="cancel" type="button">Cancel
+                                        </button>
                                     </form>
                                     <div v-else>
                                         <div v-html="bodyHtml"></div>
@@ -57,15 +58,10 @@
                                                     @endcan
 
                                                     @can('delete', $answer)
-                                                        <form class="form-delete" method="post"
-                                                              action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}">
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                                    onclick="return confirm('Sure to delete your answer?')">
-                                                                Delete
-                                                            </button>
-                                                        </form>
+                                                        <button @click="deleteAnswer" class="btn btn-sm btn-outline-danger"
+                                                        >
+                                                            Delete My Answer
+                                                        </button>
                                                     @endcan
                                                 </div>
                                             </div>
