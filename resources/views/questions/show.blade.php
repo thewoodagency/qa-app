@@ -19,23 +19,12 @@
                         <div class="media">
                             <div class="d-flex flex-column vote-controls">
                                 @include('shared._vote', [
-                            'model' => $question
-                        ])
-                                <a title="Click to mark as a favorite"
-                                   class="favorite mt-2 {{ Auth::guest() ? 'off' : ($question->is_favorited ? 'favorited' : '') }}"
-                                   onclick="event.preventDefault(); document.getElementById('favorite-{{ $question->id }}').submit()"
-                                >
-                                    <i class="fas fa-star fa-2x"></i>
-                                    <span class="favorites-count">{{ $question->favorites_count }}</span>
-                                </a>
-                                <form id="favorite-{{ $question->id }}"
-                                      action="{{ route('questions.favorite', $question->id) }}"
-                                      method="post">
-                                    @csrf
-                                    @if ($question->is_favorited)
-                                        @method('DELETE')
-                                    @endif
-                                </form>
+                                    'model' => $question
+                                ])
+                                @include('shared._favorite', [
+                                    'model' => $question
+                                ])
+                                <favorite :question="{{ $question }}"></favorite>
                             </div>
                             <div class="media-body">
                                 <p class="lead">
